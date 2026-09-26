@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Firr Pay - Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #020617; 
+            --bg-card: rgba(15, 23, 42, 0.9); 
+            --primary: #38bdf8; 
+            --primary-gradient: linear-gradient(135deg, #38bdf8, #2563eb);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(56, 189, 248, 0.3);
+            --wa-color: #25D366;
+            --danger: #ef4444;
+            --warning: #eab308;
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e3a8a 0%, var(--bg-dark) 60%, var(--bg-dark) 100%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            min-height: 100vh;
+            padding: 12px;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 100%;
+            max-width: 550px; /* Diperlebar agar memenuhi layar HP */
+            border-radius: 24px;
+            padding: 20px 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 20px var(--border-glow);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 16px; 
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 0;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px var(--border-glow);
+        }
+
+        .tab-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* INFO BOX / CATATAN */
+        .info-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 12px 14px;
+            border-radius: 8px 12px 12px 8px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .info-box.warning {
+            background: rgba(234, 179, 8, 0.1);
+            border-left-color: var(--warning);
+            color: #fef08a; 
+        }
+
+        .alert-text {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            font-size: 11px;
+            color: #fca5a5;
+        }
+
+        /* FORM INPUTS */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+            padding-left: 2px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            padding: 14px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 14px;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #475569;
+        }
+
+        .form-group input:focus {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        /* QRIS */
+        .qris-box {
+            display: none;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed var(--primary);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .qris-box img {
+            max-width: 150px;
+            border-radius: 10px;
+            margin: 8px 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        /* SUMMARY / STRUK */
+        .summary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 16px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+        }
+
+        .sum-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .sum-row span:last-child {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .sum-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .sum-total .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 12px var(--border-glow);
+        }
+
+        /* BUTTON WA */
+        .btn-wa {
+            width: 100%;
+            background: var(--wa-color);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+            transition: var(--transition);
+        }
+
+        .btn-wa:hover {
+            background: #1ebd5a;
+            transform: translateY(-2px);
+        }
+
+        .btn-wa:active {
+            transform: scale(0.95);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 11px;
+            margin-top: 6px;
+            padding-left: 2px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-card">
+        
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">F</div>
+            <h1>Firr Pay</h1>
+            <p>XI RPL 3 • M. Firnanda</p>
+        </div>
+
+        <!-- Segments -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="setMode('ewallet', this)">E-Wallet</button>
+            <button class="tab-btn" onclick="setMode('bank', this)">Bank</button>
+            <button class="tab-btn" onclick="setMode('tarik', this)">Tarik Tunai</button>
+        </div>
+
+        <!-- Info / Catatan Box -->
+        <div class="info-box" id="infoBox"></div>
+
+        <!-- QRIS Area -->
+        <div class="qris-box" id="qrisBox">
+            <div style="font-size: 12px; color: var(--primary); font-weight: 600;">SCAN UNTUK TRANSFER</div>
+            <a href="https://imgbb.com/"><img src="https://i.ibb.co.com/cKN4dQrz/Screenshot-2026-09-26-18-08-54-626-com-gojek-gopay-edit.jpg" alt="Screenshot 2026 09 26 18 08 54 626 com gojek gopay edit" border="0"></a>
+            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+                Atau manual ke:<br>
+                ShopeePay: <span style="color: white;">085707530814</span><br>
+                SeaBank: <span style="color: white;">901113171908</span>
+            </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="form-group">
+            <label>Nama & Kelas</label>
+            <input type="text" id="nama" placeholder="Contoh: Budi (XI RPL 1)">
+        </div>
+
+        <div class="form-group">
+            <label id="labelTujuan">Tujuan Top Up</label>
+            <input type="text" id="tujuan" placeholder="Contoh: DANA / GoPay">
+        </div>
+
+        <div class="form-group">
+            <label id="labelNomor">Nomor HP / Rekening</label>
+            <input type="number" id="nomor" placeholder="0812xxxxxx">
+        </div>
+
+        <div class="form-group">
+            <label>Nominal (Rp)</label>
+            <input type="number" id="nominal" placeholder="10000" oninput="calculate()">
+            <div class="error-msg" id="errorMsg">Minimal transaksi belum tercapai</div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary">
+            <div class="sum-row">
+                <span>Nominal</span>
+                <span id="txtNominal">Rp 0</span>
+            </div>
+            <div class="sum-row">
+                <span>Biaya Admin</span>
+                <span id="txtAdmin">Rp 0</span>
+            </div>
+            <div class="sum-total">
+                <span>Total Bayar</span>
+                <span class="price" id="txtTotal">Rp 0</span>
+            </div>
+        </div>
+
+        <!-- Button -->
+        <button class="btn-wa" onclick="sendWhatsApp()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Kirim ke WhatsApp
+        </button>
+
+    </div>
+
+    <script>
+        let currentMode = 'ewallet';
+        const ownerWA = "6285707530814"; 
+
+        function setMode(mode, element) {
+            currentMode = mode;
+            
+            if(element) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                element.classList.add('active');
+            }
+
+            const labelTujuan = document.getElementById('labelTujuan');
+            const labelNomor = document.getElementById('labelNomor');
+            const qrisBox = document.getElementById('qrisBox');
+            const infoBox = document.getElementById('infoBox');
+
+            const warningTransferHTML = `
+                <div class="alert-text">
+                    ⚠️ <strong>Peringatan:</strong> Silahkan isi nomor rekening/E-Wallet yang benar dan nama rekening yang sesuai, apabila salah transfer itu bukan kesalahan kami.
+                </div>
+            `;
+
+            if (mode === 'ewallet') {
+                infoBox.className = 'info-box';
+                infoBox.innerHTML = '<strong>Cara Transaksi:</strong> Isi formulir, klik Kirim ke WhatsApp, lalu serahkan uang tunai + admin ke Firnanda di kelas.' + warningTransferHTML;
+                labelTujuan.innerText = "Tujuan E-Wallet";
+                labelNomor.innerText = "Nomor HP E-Wallet";
+                qrisBox.style.display = "none";
+            } else if (mode === 'bank') {
+                infoBox.className = 'info-box';
+                infoBox.innerHTML = '<strong>Cara Transaksi:</strong> Isi formulir, klik Kirim ke WhatsApp, lalu serahkan uang tunai + admin ke Firnanda di kelas.' + warningTransferHTML;
+                labelTujuan.innerText = "Nama Bank Tujuan";
+                labelNomor.innerText = "Nomor Rekening Tujuan";
+                qrisBox.style.display = "none";
+            } else if (mode === 'tarik') {
+                infoBox.className = 'info-box warning'; 
+                infoBox.innerHTML = '⚠️ <strong>Perhatian:</strong> Silahkan tanyakan terlebih dahulu pada Firnanda apakah nominal uang yang ingin anda tarik tersedia?';
+                labelTujuan.innerText = "Tarik Dari (Cth: DANA)";
+                labelNomor.innerText = "Nomor Pengirim";
+                qrisBox.style.display = "block";
+            }
+            calculate();
+        }
+
+        window.onload = function() {
+            setMode('ewallet', document.querySelector('.tab-btn.active'));
+        };
+
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+        }
+
+        function getAdminFee(mode, amount) {
+            if (mode === 'ewallet') {
+                if (amount < 100000) return 1000;
+                else if (amount <= 200000) return 2000;
+                else return 3000;
+            } else if (mode === 'bank') {
+                if (amount < 100000) return 2000;
+                else if (amount <= 200000) return 4000;
+                else return 5000;
+            } else if (mode === 'tarik') {
+                if (amount < 100000) return 2000;
+                else if (amount <= 200000) return 3000;
+                else return 4000;
+            }
+            return 0;
+        }
+
+        function calculate() {
+            let inputField = document.getElementById('nominal');
+            let amount = parseInt(inputField.value) || 0;
+            let errorMsg = document.getElementById('errorMsg');
+            
+            let minTrans = (currentMode === 'tarik') ? 15000 : 10000;
+            
+            if (amount > 0 && amount < minTrans) {
+                errorMsg.style.display = "block";
+                errorMsg.innerText = `Minimal transaksi ${formatRupiah(minTrans)}`;
+                inputField.style.borderColor = "var(--danger)";
+            } else {
+                errorMsg.style.display = "none";
+                inputField.style.borderColor = "rgba(255, 255, 255, 0.06)";
+            }
+
+            let adminFee = amount > 0 ? getAdminFee(currentMode, amount) : 0;
+            
+            document.getElementById('txtNominal').innerText = amount > 0 ? formatRupiah(amount) : "Rp 0";
+            document.getElementById('txtAdmin').innerText = amount > 0 ? formatRupiah(adminFee) : "Rp 0";
+            document.getElementById('txtTotal').innerText = amount > 0 ? formatRupiah(amount + adminFee) : "Rp 0";
+        }
+
+        function sendWhatsApp() {
+            let nama = document.getElementById('nama').value;
+            let tujuan = document.getElementById('tujuan').value;
+            let nomor = document.getElementById('nomor').value;
+            let amount = parseInt(document.getElementById('nominal').value) || 0;
+            let minTrans = (currentMode === 'tarik') ? 15000 : 10000;
+
+            if (!nama || !tujuan || !nomor || amount < minTrans) {
+                alert("Data belum lengkap atau nominal kurang dari batas minimal!");
+                return;
+            }
+
+            let adminFee = getAdminFee(currentMode, amount);
+            let total = amount + adminFee;
+            let jenis = currentMode === 'ewallet' ? 'Top Up E-Wallet' : currentMode === 'bank' ? 'Transfer Bank' : 'Tarik Tunai';
+
+            let pesan = `Halo *Firr Pay* 🚀\n\n`;
+            pesan += `*Jenis Transaksi:* ${jenis}\n`;
+            pesan += `*Nama:* ${nama}\n`;
+            pesan += `*Tujuan:* ${tujuan}\n`;
+            pesan += `*Nomor/Rek:* ${nomor}\n\n`;
+            pesan += `*Nominal:* ${formatRupiah(amount)}\n`;
+            pesan += `*Admin:* ${formatRupiah(adminFee)}\n`;
+            pesan += `*TOTAL:* *${formatRupiah(total)}*\n\n`;
+
+            if (currentMode === 'tarik') {
+                pesan += `_Saya mentransfer saldo ke QRIS/Rekening kamu. Tolong siapkan uang tunainya di kelas XI RPL 3 ya!_`;
+            } else {
+                pesan += `_Saya akan bawa uang tunainya beserta admin ke kelas XI RPL 3._`;
+            }
+
+            window.open(`https://wa.me/6285707530814 ${ownerWA}?text=${encodeURIComponent(pesan)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
